@@ -5,9 +5,12 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.SplashTextRenderer;
 import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.network.ServerAddress;
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.text.Text;
+import nl.minidj.mjzm.mixin.ScreenAccessor;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,14 +27,13 @@ public abstract class TitleScreenMixin {
     private void mjzm$customizeTitleScreen(CallbackInfo ci) {
         Screen screen = (Screen) (Object) this;
 
-        // Replace Minecraft's rotating splash text with the MJZM credit.
+        // Replace the rotating splash text with the MJZM credit.
         this.splashText = new SplashTextRenderer(Text.literal("MJZM was made By DeMiniDJ"));
 
         int buttonX = screen.width / 2 - 100;
         int buttonY = screen.height / 4 + 48;
 
-        // Put the MJZM button exactly where vanilla's Multiplayer button is,
-        // and hide the original instead of moving it outside the screen.
+        // Hide vanilla Multiplayer and reuse its exact position for the MJZM button.
         for (Element element : screen.children()) {
             if (element instanceof ButtonWidget oldButton
                     && oldButton.getMessage().getString().equalsIgnoreCase("Multiplayer")) {
@@ -43,17 +45,18 @@ public abstract class TitleScreenMixin {
             }
         }
 
-        ButtonWidget joinButton = ButtonWidget.builder(
-                Text.literal("Join MJZM"),
-                clicked -> {
-                    MinecraftClient client = MinecraftClient.getInstance();
+        ButtonWidget joinButton = ButtonWidget.builder(Text.literal("Join MJZM"), clicked -> {
+            MinecraftClient client = MinecraftClient.getInstance();
+            ServerAddress address = ServerAddress.parse("mjzm.minehost.gg");
+            ServerInfo serverInfo = new ServerInfo(
+                    "MJZM",
+                    "mjzm.minehost.gg",
+                    ServerInfo.ServerType.OTHER
+            );
 
-                    // Use Minecraft's own multiplayer screen and its normal
-                    // server-entry connection flow, avoiding a custom direct connect.
-                    client.setScreen(new MultiplayerScreen(screen));
-                })
-                .dimensions(buttonX, buttonY, 200, 20)
-                .build();
+            // Keep the connection code from the build the user identified as working.
+            ConnectScreen.connect(screen, client, address, serverInfo, false, null);
+        }).dimensions(buttonX, buttonY, 200, 20).build();
 
         ((ScreenAccessor) screen).mjzm$addDrawableChild(joinButton);
     }
