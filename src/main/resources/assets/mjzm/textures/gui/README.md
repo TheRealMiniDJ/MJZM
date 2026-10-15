@@ -1,11 +1,11 @@
 # MJZM GUI-afbeeldingen
 
-Zet hier de afbeeldingen voor de mod neer. Minecraft-texturen horen in PNG-formaat.
+De afbeeldingen voor de MJZM-mod staan in deze map. Minecraft-texturen horen in PNG-formaat.
 
-Aanbevolen bestandsnamen:
-- `logo.png` voor het MJZM-logo
-- `menu_background.png` voor een eigen hoofdmenu-achtergrond
+Bestanden:
+- `menu_background.png` voor de aangepaste hoofdmenu-achtergrond
+- `servericon.png` voor het MJZM-servericoon
 
-Dit is de map voor GUI-texturen: `assets/mjzm/textures/gui/`.
+Map: `assets/mjzm/textures/gui/`
 
-Let op: deze map maakt de plek alvast aan in de repository. De mod gebruikt afbeeldingen pas nadat de code is aangepast om ze daadwerkelijk te laden.
+De modcode gebruikt de achtergrond als hoofdmenu-achtergrond. Het servericoon wordt momenteel nog niet door de code geladen.
