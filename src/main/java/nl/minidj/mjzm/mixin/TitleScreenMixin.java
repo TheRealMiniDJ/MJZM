@@ -63,7 +63,7 @@ public abstract class TitleScreenMixin {
         ((ScreenAccessor) screen).mjzm$addDrawableChild(joinButton);
     }
 
-    @Inject(method = "renderPanorama", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "renderPanoramaBackground", at = @At("HEAD"), cancellable = true)
     private void mjzm$drawCustomBackground(DrawContext context, float delta, CallbackInfo ci) {
         Screen screen = (Screen) (Object) this;
         context.drawTexture(MJZM$BACKGROUND,
