@@ -1,6 +1,7 @@
 package nl.minidj.mjzm.mixin;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -9,6 +10,8 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import net.minecraft.client.render.RenderLayer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,6 +22,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TitleScreen.class)
 public abstract class TitleScreenMixin {
+    private static final Identifier MJZM$BACKGROUND =
+            Identifier.of("mjzm", "textures/gui/menu_background.png");
+    private static final Identifier MJZM$SERVER_ICON =
+            Identifier.of("mjzm", "textures/gui/servericon.png");
+
     @Shadow @Final @Mutable private String splashText;
 
     @Inject(method = "init", at = @At("TAIL"))
@@ -55,5 +63,12 @@ public abstract class TitleScreenMixin {
                 .build();
 
         ((ScreenAccessor) screen).mjzm$addDrawableChild(joinButton);
+    }
+
+    @Inject(method = "render", at = @At("HEAD"))
+    private void mjzm$drawCustomBackground(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        Screen screen = (Screen) (Object) this;
+        context.drawTexture(RenderLayer::getGuiTextured, MJZM$BACKGROUND,
+                0, 0, 0.0F, 0.0F, screen.width, screen.height, screen.width, screen.height);
     }
 }
