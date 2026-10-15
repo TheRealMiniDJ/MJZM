@@ -24,7 +24,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.8'
+          gradle-version: '8.14.3'
 
       - name: Build mod
         run: gradle build --no-daemon
@@ -32,6 +32,6 @@ jobs:
       - name: Upload mod JAR
         uses: actions/upload-artifact@v4
         with:
-          name: MJZM-Fabric-1.21.1
+          name: MJZM-Fabric-1.21.11
           path: build/libs/*.jar
           if-no-files-found: error
