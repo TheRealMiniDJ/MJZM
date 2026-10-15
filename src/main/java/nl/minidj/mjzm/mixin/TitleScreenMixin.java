@@ -12,7 +12,6 @@ import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.client.render.RenderLayer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -67,8 +66,8 @@ public abstract class TitleScreenMixin {
     @Inject(method = "renderPanorama", at = @At("HEAD"), cancellable = true)
     private void mjzm$drawCustomBackground(DrawContext context, float delta, CallbackInfo ci) {
         Screen screen = (Screen) (Object) this;
-        context.drawTexture(RenderLayer::getGuiTextured, MJZM$BACKGROUND,
-                0, 0, 0.0F, 0.0F, screen.width, screen.height,
+        context.drawTexture(MJZM$BACKGROUND,
+                0, 0, 0, 0.0F, 0.0F, screen.width, screen.height,
                 screen.width, screen.height);
         ci.cancel();
     }
