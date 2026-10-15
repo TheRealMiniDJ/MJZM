@@ -23,17 +23,22 @@ public abstract class TitleScreenMixin {
     @Inject(method = "init", at = @At("TAIL"))
     private void mjzm$customizeTitleScreen(CallbackInfo ci) {
         Screen screen = (Screen) (Object) this;
+
+        // Replace Minecraft's rotating splash text with the MJZM credit.
         this.splashText = new SplashTextRenderer(Text.literal("MJZM was made By DeMiniDJ"));
 
         int buttonX = screen.width / 2 - 100;
         int buttonY = screen.height / 4 + 48;
 
+        // Put the MJZM button exactly where vanilla's Multiplayer button is,
+        // and hide the original instead of moving it outside the screen.
         for (Element element : screen.children()) {
             if (element instanceof ButtonWidget oldButton
                     && oldButton.getMessage().getString().equalsIgnoreCase("Multiplayer")) {
                 buttonX = oldButton.getX();
                 buttonY = oldButton.getY();
-                oldButton.setPosition(-10000, -10000);
+                oldButton.visible = false;
+                oldButton.active = false;
                 break;
             }
         }
@@ -43,10 +48,8 @@ public abstract class TitleScreenMixin {
                 clicked -> {
                     MinecraftClient client = MinecraftClient.getInstance();
 
-                    // Open Minecraft's own Multiplayer screen instead of starting
-                    // a separate connection from the title screen. The player can
-                    // then join MJZM using the same saved server entry that works
-                    // from the normal Multiplayer menu.
+                    // Use Minecraft's own multiplayer screen and its normal
+                    // server-entry connection flow, avoiding a custom direct connect.
                     client.setScreen(new MultiplayerScreen(screen));
                 })
                 .dimensions(buttonX, buttonY, 200, 20)
@@ -54,5 +57,4 @@ public abstract class TitleScreenMixin {
 
         ((ScreenAccessor) screen).mjzm$addDrawableChild(joinButton);
     }
-
 }
