@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "mjzm",
+  "version": "${version}",
+  "name": "MJZM",
+  "description": "Adds an MJZM button to the Minecraft title screen that connects to mjzm.minehost.gg.",
+  "authors": ["De Mini DJ"],
+  "environment": "client",
+  "mixins": [
+    "mjzm.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.5",
+    "minecraft": "~1.21.1",
+    "java": ">=21"
+  }
+}
