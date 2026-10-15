@@ -25,3 +25,6 @@ The JAR will be in `build/libs`.
 Put the built JAR in the Minecraft instance's `mods` folder with Fabric Loader for Minecraft 1.21.1 installed.
 
 This mod only adds the shortcut button. It does not change Minecraft account authentication or server access rules. The server may require a properly authenticated account.
+
+
+Build verification triggered after the screen accessor fix.
