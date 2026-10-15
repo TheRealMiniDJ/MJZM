@@ -8,6 +8,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.text.Text;
+import nl.minidj.mjzm.mixin.ScreenAccessor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,6 +32,6 @@ public abstract class TitleScreenMixin {
             ConnectScreen.connect(screen, client, address, serverInfo, false, null);
         }).dimensions(screen.width - 110, 10, 100, 20).build();
 
-        screen.addDrawableChild(button);
+        ((ScreenAccessor) screen).mjzm$addDrawableChild(button);
     }
 }
