@@ -25,7 +25,7 @@ public abstract class TitleScreenMixin {
     @Inject(method = "init", at = @At("TAIL"))
     private void mjzm$customizeTitleScreen(CallbackInfo ci) {
         Screen screen = (Screen) (Object) this;
-        this.splashText = new SplashTextRenderer("MJZM was made By DeMiniDJ");
+        this.splashText = new SplashTextRenderer(Text.literal("MJZM was made By DeMiniDJ"));
 
         int buttonX = screen.width / 2 - 100;
         int buttonY = screen.height / 4 + 48;
