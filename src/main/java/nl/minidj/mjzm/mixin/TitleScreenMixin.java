@@ -7,7 +7,6 @@ import net.minecraft.client.gui.screen.SplashTextRenderer;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.network.ServerInfo;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mutable;
@@ -43,17 +42,12 @@ public abstract class TitleScreenMixin {
                 Text.literal("Join MJZM"),
                 clicked -> {
                     MinecraftClient client = MinecraftClient.getInstance();
-                    ServerInfo serverInfo = new ServerInfo(
-                            "MJZM",
-                            "mjzm.minehost.gg",
-                            ServerInfo.ServerType.OTHER
-                    );
 
-                    // Use Minecraft's normal MultiplayerScreen connection path.
-                    // This mirrors how joining a server from the Multiplayer menu works.
-                    MultiplayerScreen multiplayerScreen = new MultiplayerScreen(screen);
-                    client.setScreen(multiplayerScreen);
-                    multiplayerScreen.connect(serverInfo);
+                    // Open Minecraft's own Multiplayer screen instead of starting
+                    // a separate connection from the title screen. The player can
+                    // then join MJZM using the same saved server entry that works
+                    // from the normal Multiplayer menu.
+                    client.setScreen(new MultiplayerScreen(screen));
                 })
                 .dimensions(buttonX, buttonY, 200, 20)
                 .build();
